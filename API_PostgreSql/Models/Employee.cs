@@ -22,5 +22,9 @@ namespace API_postgres.Models
             Age = age;
             Photo = photo;
         }
+
+        public Employee()
+        {
+        }
     }
 }

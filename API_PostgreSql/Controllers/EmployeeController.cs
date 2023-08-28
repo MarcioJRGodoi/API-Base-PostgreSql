@@ -1,6 +1,7 @@
 ﻿using API_postgres.IRepository;
 using API_postgres.Models;
 using API_postgres.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,6 +21,7 @@ namespace API_postgres.Controllers
         }
 
         // GET: api/<EmployeeController>
+        [Authorize]
         [HttpGet]
         public List<Employee> Get()
         {
@@ -27,6 +29,7 @@ namespace API_postgres.Controllers
         }
 
         // GET api/<EmployeeController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -34,6 +37,7 @@ namespace API_postgres.Controllers
         }
 
         // POST api/<EmployeeController>
+        [Authorize]
         [HttpPost]
         [Route("{id}/download")]
         public IActionResult DownloadPhoto(int id)
@@ -44,7 +48,7 @@ namespace API_postgres.Controllers
             return File(dataBytes, "image/png");
 
         }
-
+        [Authorize]
         [HttpPost]
         public void Post([FromForm] EmployeeViewModel employee)
         {
