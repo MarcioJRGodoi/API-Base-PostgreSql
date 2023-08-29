@@ -1,6 +1,6 @@
-﻿using API_postgres.Models;
-using API_postgres.Services;
+﻿using API_PostgreSql.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using API_PostgreSql.Application.Services;
 
 namespace API_PostgreSql.Controllers
 {
@@ -11,7 +11,7 @@ namespace API_PostgreSql.Controllers
         [HttpPost]
         public IActionResult Auth(string userName, string password)
         {
-            if(userName == "eu" || password == "1230")
+            if(userName == "eu" || password == "123")
             {
                 var token = TokenService.GenerateToken(new Employee());
                 return Ok(token);

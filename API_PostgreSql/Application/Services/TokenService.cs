@@ -1,10 +1,11 @@
-﻿using API_postgres.Models;
+﻿using API_postgres;
+using API_PostgreSql.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace API_postgres.Services
+namespace API_PostgreSql.Application.Services
 {
     public class TokenService
     {
@@ -13,7 +14,7 @@ namespace API_postgres.Services
             var key = Encoding.ASCII.GetBytes(Key.Secret);
             var tokenConfig = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("employeeId", employee.Id.ToString()),
                 }),
@@ -25,7 +26,7 @@ namespace API_postgres.Services
             var tokenString = tokenHandler.WriteToken(token);
             return new
             {
-                token = tokenString,
+                token = tokenString
             };
         }
     }

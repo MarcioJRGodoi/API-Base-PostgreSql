@@ -1,6 +1,8 @@
-﻿using API_postgres.IRepository;
-using API_postgres.Models;
-using API_postgres.ViewModel;
+﻿using API_PostgreSql.Application.ViewModel;
+using API_PostgreSql.Domain.DTOs;
+using API_PostgreSql.Domain.IRepository;
+using API_PostgreSql.Domain.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,26 +16,33 @@ namespace API_postgres.Controllers
     {
 
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly ILogger<EmployeeController> _logger;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        public EmployeeController(IEmployeeRepository employeeRepository, ILogger<EmployeeController> logger, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         // GET: api/<EmployeeController>
-        [Authorize]
+        
         [HttpGet]
-        public List<Employee> Get()
+        public List<EmployeeDTO> Get(int pageNumber, int pageQuantity)
         {
-            return _employeeRepository.GetAll().ToList();
+            return _employeeRepository.GetAll(pageNumber, pageQuantity).ToList();
+            
         }
 
         // GET api/<EmployeeController>/5
         [Authorize]
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var employee = _employeeRepository.Get(id);
+            var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
+            return Ok(employeeDTO);
         }
 
         // POST api/<EmployeeController>

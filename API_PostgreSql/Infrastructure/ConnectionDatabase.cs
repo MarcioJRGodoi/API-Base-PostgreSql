@@ -1,7 +1,7 @@
-﻿using API_postgres.Models;
+﻿using API_PostgreSql.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_postgres.Data
+namespace API_PostgreSql.Infrastructure
 {
     public class ConnectionDatabase : DbContext
     {

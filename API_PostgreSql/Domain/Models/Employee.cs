@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using API_postgres;
 
-namespace API_postgres.Models
+namespace API_PostgreSql.Domain.Models
 {
     [Table("empregados")]
     public class Employee

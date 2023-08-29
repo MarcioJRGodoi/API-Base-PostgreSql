@@ -1,4 +1,4 @@
-﻿namespace API_postgres.ViewModel
+﻿namespace API_PostgreSql.Application.ViewModel
 {
     public class EmployeeViewModel
     {
