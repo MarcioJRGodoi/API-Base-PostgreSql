@@ -1,6 +1,6 @@
 using API_postgres;
 using API_PostgreSql.Application.Mapping;
-using API_PostgreSql.Domain.IRepository;
+using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using API_PostgreSql.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -47,6 +47,16 @@ builder.Services.AddSwaggerGen(c => {
 
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyPolicy",
+
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+        });
+});
+
 var key = Encoding.ASCII.GetBytes(Key.Secret);
 
 builder.Services.AddAuthentication(x =>
@@ -79,6 +89,8 @@ else
 {
     app.UseExceptionHandler("/error");
 }
+
+app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 

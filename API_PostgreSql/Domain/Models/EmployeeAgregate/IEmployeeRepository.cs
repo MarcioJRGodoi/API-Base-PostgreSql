@@ -1,7 +1,6 @@
 ﻿using API_PostgreSql.Domain.DTOs;
-using API_PostgreSql.Domain.Models;
 
-namespace API_PostgreSql.Domain.IRepository
+namespace API_PostgreSql.Domain.Models.EmployeeAgregate
 {
     public interface IEmployeeRepository
     {

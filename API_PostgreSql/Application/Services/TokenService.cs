@@ -1,5 +1,5 @@
 ﻿using API_postgres;
-using API_PostgreSql.Domain.Models;
+using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

@@ -1,7 +1,7 @@
 ﻿using API_PostgreSql.Application.ViewModel;
 using API_PostgreSql.Domain.DTOs;
-using API_PostgreSql.Domain.IRepository;
 using API_PostgreSql.Domain.Models;
+using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

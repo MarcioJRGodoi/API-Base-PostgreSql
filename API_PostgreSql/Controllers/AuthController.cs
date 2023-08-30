@@ -1,4 +1,4 @@
-﻿using API_PostgreSql.Domain.Models;
+﻿using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.AspNetCore.Mvc;
 using API_PostgreSql.Application.Services;
 

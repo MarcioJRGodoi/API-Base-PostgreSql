@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using API_postgres;
 
-namespace API_PostgreSql.Domain.Models
+namespace API_PostgreSql.Domain.Models.EmployeeAgregate
 {
     [Table("empregados")]
     public class Employee

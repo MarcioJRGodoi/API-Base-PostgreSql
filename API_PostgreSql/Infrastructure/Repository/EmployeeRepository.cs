@@ -1,6 +1,5 @@
 ﻿using API_PostgreSql.Domain.DTOs;
-using API_PostgreSql.Domain.IRepository;
-using API_PostgreSql.Domain.Models;
+using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.AspNetCore.Connections;
 
 namespace API_PostgreSql.Infrastructure.Repository

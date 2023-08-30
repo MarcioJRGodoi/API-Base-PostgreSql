@@ -1,4 +1,4 @@
-﻿using API_PostgreSql.Domain.Models;
+﻿using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_PostgreSql.Infrastructure
@@ -11,7 +11,7 @@ namespace API_PostgreSql.Infrastructure
                 optionsBuilder.UseNpgsql(
                 "Server=localhost;" +
                 "Port=5432;" +
-                "Database=bancoTeste;" +  // Adicionei um espaço após o nome do banco
+                "Database=teste;" + 
                 "User Id=postgres;" +
                 "Password=123;");
     }
