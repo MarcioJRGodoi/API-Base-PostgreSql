@@ -9,10 +9,10 @@ namespace API_PostgreSql.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
                 optionsBuilder.UseNpgsql(
-                "Server=localhost;" +
+                "Server=silly.db.elephantsql.com;" +
                 "Port=5432;" +
-                "Database=teste;" + 
-                "User Id=postgres;" +
-                "Password=123;");
+                "Database=yczascmf;" +
+                "User Id=yczascmf;" +
+                "Password=yrU9L_O6fDkPATpwhDM1O3Rg1npQ_94M;");
     }
 }
