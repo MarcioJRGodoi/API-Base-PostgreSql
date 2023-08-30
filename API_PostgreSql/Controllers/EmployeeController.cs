@@ -36,7 +36,6 @@ namespace API_postgres.Controllers
         }
 
         // GET api/<EmployeeController>/5
-        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
