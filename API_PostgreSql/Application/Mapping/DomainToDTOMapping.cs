@@ -8,8 +8,8 @@ namespace API_PostgreSql.Application.Mapping
     {
         public DomainToDTOMapping()
         {
-            CreateMap<Employee, EmployeeDTO>()
-                .ForMember(dest => dest.NameEmployee, m => m.MapFrom(orig => orig.Name));
+            CreateMap<User, UserDTO>()
+                .ForMember(dest => dest.UserName, m => m.MapFrom(orig => orig.Name));
         }
     }
 }

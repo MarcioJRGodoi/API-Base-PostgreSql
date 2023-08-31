@@ -4,30 +4,30 @@ using Microsoft.AspNetCore.Connections;
 
 namespace API_PostgreSql.Infrastructure.Repository
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ConnectionDatabase _context = new ConnectionDatabase();
-        public void Add(Employee employee)
+        public void Add(User user)
         {
-            _context.Employees.Add(employee);
+            _context.Users.Add(user);
             _context.SaveChanges();
         }
 
-        public Employee? Get(int id)
+        public User? Get(int id)
         {
-            return _context.Employees.Find(id);
+            return _context.Users.Find(id);
         }
 
-        public List<EmployeeDTO> GetAll(int pageNumber, int pageQuantity)
+        public List<UserDTO> GetAll(int pageNumber, int pageQuantity)
         {
-            return _context.Employees.Skip(pageNumber * pageQuantity)
+            return _context.Users.Skip(pageNumber * pageQuantity)
                 .Take(pageQuantity)
                 .Select(e => 
-                new EmployeeDTO()
+                new UserDTO()
                 {
                     Id = e.Id,
-                    NameEmployee = e.Name,
-                    Photo = e.Photo
+                    UserName = e.Name,
+                    Profile = e.Profile,
                 }
                 )
                 .ToList();

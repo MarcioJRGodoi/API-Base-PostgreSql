@@ -1,22 +1,31 @@
 ﻿using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.AspNetCore.Mvc;
 using API_PostgreSql.Application.Services;
+using API_PostgreSql.Infrastructure;
+using API_PostgreSql.Domain.Models.AuthAgregate;
 
 namespace API_PostgreSql.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Auth")]
     public class AuthController : Controller
     {
-        [HttpPost]
-        public IActionResult Auth(string userName, string password)
+        private readonly IAuthRepository _authRepository;
+        public AuthController(IAuthRepository authRepository)
         {
-            if(userName == "eu" || password == "123")
+            _authRepository = authRepository;
+        }
+
+        [HttpPost]
+        public IActionResult Auth(string userName,string password)
             {
-                var token = TokenService.GenerateToken(new Employee());
-                return Ok(token);
+            var login = _authRepository.Login(userName, password);
+            if (login == null)
+            {
+                return BadRequest("Usuário não encontrado");
             }
-            return BadRequest("username or password invalid");
+            return Ok(login);
+            
         }
     }
 }

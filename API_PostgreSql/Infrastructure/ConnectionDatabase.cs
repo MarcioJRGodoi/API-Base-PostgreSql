@@ -5,7 +5,7 @@ namespace API_PostgreSql.Infrastructure
 {
     public class ConnectionDatabase : DbContext
     {
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
                 optionsBuilder.UseNpgsql(
