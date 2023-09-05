@@ -1,4 +1,5 @@
 ﻿using API_PostgreSql.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API_PostgreSql.Domain.Models.EmployeeAgregate
 {
@@ -6,7 +7,11 @@ namespace API_PostgreSql.Domain.Models.EmployeeAgregate
     {
         void Add(User user);
 
-        List<UserDTO> GetAll(int pageNumber, int pageQuantity);
-        User? Get(int id);
+        Task<List<UserDTO>> GetAll();
+        Task<User> Get(int id);
+
+        void Update(int id, User user);
+
+        IActionResult Delete(int id);
     }
 }

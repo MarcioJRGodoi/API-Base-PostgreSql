@@ -1,6 +1,7 @@
 using API_postgres;
 using API_PostgreSql.Application.Mapping;
 using API_PostgreSql.Domain.Models.AuthAgregate;
+using API_PostgreSql.Domain.Models.CageAgregate;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using API_PostgreSql.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,6 +49,7 @@ builder.Services.AddSwaggerGen(c => {
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<ICageRepository, CageRepository>();
 
 builder.Services.AddCors(options =>
 {

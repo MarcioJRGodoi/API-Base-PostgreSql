@@ -9,11 +9,11 @@ namespace API_PostgreSql.Domain.Models.EmployeeAgregate
     {
         [Key]
         [Column("id")]
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         [Column("usuario")]
-        public string Name { get; private set; }
+        public string Name { get;  set; }
         [Column("senha")]
-        public string Password { get; private set; }
+        public string Password { get;  set; }
         [Column("perfil")]
         public string Profile { get; set; }
 

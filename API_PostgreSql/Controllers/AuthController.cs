@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using API_PostgreSql.Application.Services;
 using API_PostgreSql.Infrastructure;
 using API_PostgreSql.Domain.Models.AuthAgregate;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace API_PostgreSql.Controllers
 {
@@ -17,14 +19,27 @@ namespace API_PostgreSql.Controllers
         }
 
         [HttpPost]
-        public IActionResult Auth(string userName,string password)
+        public IActionResult Auth(string userName, string password)
             {
-            var login = _authRepository.Login(userName, password);
-            if (login == null)
+            using (var sha256 = SHA256.Create())
             {
-                return BadRequest("Usuário não encontrado");
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Converta os bytes hash em uma representação hexadecimal
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashedBytes.Length; i++)
+                {
+                    builder.Append(hashedBytes[i].ToString("x2"));
+                }
+
+                var login = _authRepository.Login(userName, builder.ToString());
+                if (login.UserName == null)
+                {
+                    return BadRequest("Usuário não encontrado");
+                }
+                return Ok(login);
             }
-            return Ok(login);
+            
             
         }
     }
