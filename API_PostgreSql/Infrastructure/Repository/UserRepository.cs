@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.Services;
+using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,25 +13,13 @@ namespace API_PostgreSql.Infrastructure.Repository
     public class UserRepository : IUserRepository
     {
         private readonly ConnectionDatabase _context = new();
-        public async void Add(User user)
+        public async Task Add(User user)
         {
-            // metodo para criptografar a senha recebida
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
 
-                // Converta os bytes hash em uma representação hexadecimal
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < hashedBytes.Length; i++)
-                {
-                    builder.Append(hashedBytes[i].ToString("x2"));
-                }
-                //Parte que cria o usuario e envia para o banco de dados
-                var newUser = new User(user.Name, builder.ToString(), user.Profile);
-                await _context.Users.AddAsync(newUser);
-                await _context.SaveChangesAsync();
-            }
-               
+            var newUser = new User(user.Name, HashPasswordService.HashPassword(user.Password), user.Profile);
+            await _context.Users.AddAsync(newUser);
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task<User> Get(int id)
@@ -49,16 +38,28 @@ namespace API_PostgreSql.Infrastructure.Repository
                 }).ToListAsync();
         }
 
-        public async void Update(int id, User user)
+        public async Task<bool> Update(int id, User user)
         {
-            //tecnicamente nao é uma boa pratica fazer isso dessa forma, porem podemos usar por enquanto
-            var oldUser =  await _context.Users.FindAsync(id);
-            oldUser.Name = user.Name;
-            oldUser.Profile = user.Profile;
-            oldUser.Password = user.Password;
+            var existingUser = await _context.Set<User>().FindAsync(id);
 
-            await _context.SaveChangesAsync();
-  
+            if (existingUser == null)
+            {
+                return false; 
+            }
+
+            existingUser.Name = user.Name;
+            existingUser.Profile = user.Profile;
+            existingUser.Password = HashPasswordService.HashPassword(user.Password);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception($"Erro ao atualizar o usuário: {ex.Message}");
+            }
         }
 
         public IActionResult Delete(int id)

@@ -20,27 +20,16 @@ namespace API_PostgreSql.Controllers
 
         [HttpPost]
         public IActionResult Auth(string userName, string password)
-            {
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        {
 
-                // Converta os bytes hash em uma representação hexadecimal
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < hashedBytes.Length; i++)
-                {
-                    builder.Append(hashedBytes[i].ToString("x2"));
-                }
-
-                var login = _authRepository.Login(userName, builder.ToString());
-                if (login.UserName == null)
-                {
-                    return BadRequest("Usuário não encontrado");
-                }
-                return Ok(login);
+            var login = _authRepository.Login(userName, HashPasswordService.HashPassword(password));
+            if (login.UserName == null)
+            {
+                return BadRequest("Usuário não encontrado");
             }
-            
-            
+            return Ok(login);
+
+
         }
     }
 }

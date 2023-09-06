@@ -33,7 +33,7 @@ namespace API_postgres.Controllers
         public Task<List<UserDTO>> Get()
         {
             return _userRepository.GetAll();
-            
+
         }
 
         // GET api/<UserController>/5
@@ -42,31 +42,51 @@ namespace API_postgres.Controllers
         {
             var user = _userRepository.Get(id);
             var userDTO = _mapper.Map<UserDTO>(user);
+            if (user == null)
+            {
+                return BadRequest("Usuário não encontrado");
+            }
             return Ok(userDTO);
         }
 
         // POST api/<UserController>
         //[Authorize]
         [HttpPost]
-        public void Post([FromForm] UserViewModel user)
+        public IActionResult Post([FromForm] UserViewModel user)
         {
+            try
+            {
+                var newUser = new User(user.Name, user.Password, user.Profile);
+                _userRepository.Add(newUser);
 
-            var newUser = new User(user.Name, user.Password, user.Profile);
-            _userRepository.Add(newUser);
+                return Ok("Usuário criado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro: {ex.Message}");
+            }
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UserViewModel user)
+        public async Task<IActionResult> Update(int id, UserViewModel updatedUser)
         {
-            var UserExists = _userRepository.Get(id);
-            if (UserExists == null)
+            try
             {
-                throw new ArgumentException("O usuário informado não existe");
+                User user = new(updatedUser.Name, updatedUser.Password, updatedUser.Profile);
+                var updated = await _userRepository.Update(id, user);
+
+                if (!updated)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                return Ok("Usuário atualizado com sucesso");
             }
-            var newUser = new User(user.Name, user.Password, user.Profile);
-            _userRepository.Update(id, newUser);
-            return Ok("Usuario Atualizado com sucesso");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
         }
 
         // DELETE api/<UserController>/5
