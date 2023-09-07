@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\Models\NovaPasta1\**" />
     <Compile Remove="Domain\Models\NovaPasta\**" />
+    <Content Remove="Domain\Models\NovaPasta1\**" />
     <Content Remove="Domain\Models\NovaPasta\**" />
+    <EmbeddedResource Remove="Domain\Models\NovaPasta1\**" />
     <EmbeddedResource Remove="Domain\Models\NovaPasta\**" />
+    <None Remove="Domain\Models\NovaPasta1\**" />
     <None Remove="Domain\Models\NovaPasta\**" />
   </ItemGroup>
 
@@ -43,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Models\NovaPasta1\" />
     <Folder Include="Domain\Models\TurnsAgregate\" />
   </ItemGroup>
 
