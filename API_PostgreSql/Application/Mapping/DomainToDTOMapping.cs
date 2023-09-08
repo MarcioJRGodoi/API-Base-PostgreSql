@@ -10,14 +10,11 @@ namespace API_PostgreSql.Application.Mapping
     {
         public DomainToDTOMapping()
         {
-            CreateMap<User, UserDTO>()
-                .ForMember(dest => dest.UserName, m => m.MapFrom(orig => orig.Name));
+            CreateMap<User, UserDTO>();
+            CreateMap<Cage, CageDTO>();
+            CreateMap<Turns, TurnsDTO>();
 
-            CreateMap<Cage, CageDTO>()
-                .ForMember(dest => dest.Descricao, m => m.MapFrom(orig => orig.Descricao));
 
-            CreateMap<Turns, TurnsDTO>()
-                .ForMember(dest => dest.VelocidadeMedia, m => m.MapFrom(orig => orig.VelocidadeMedia));
         }
     }
 }
