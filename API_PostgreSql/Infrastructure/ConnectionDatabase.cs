@@ -9,6 +9,6 @@ namespace API_PostgreSql.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Cage> Cages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-                optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+                optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("Server=silly.db.elephantsql.com;Port=5432;Database=yczascmf;User Id=yczascmf;Password=yrU9L_O6fDkPATpwhDM1O3Rg1npQ_94M;"));
     }
 }
