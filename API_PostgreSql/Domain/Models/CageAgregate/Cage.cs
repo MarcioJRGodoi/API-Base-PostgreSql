@@ -10,7 +10,7 @@ namespace API_PostgreSql.Domain.Models.CageAgregate
         [Column("id")]
         public int Id { get; private set; }
         [Column("diametro")]
-        public int Diametro { get; set; }
+        public float Diametro { get; set; }
         [Column("descricao")]
         public string Descricao { get; set; }
 

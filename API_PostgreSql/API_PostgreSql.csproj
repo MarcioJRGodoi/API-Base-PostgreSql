@@ -4,7 +4,28 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>83d24a02-2132-4027-9adf-14af53b8a75f</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Domain\Models\NovaPasta1\**" />
+    <Compile Remove="Domain\Models\NovaPasta\**" />
+    <Content Remove="Domain\Models\NovaPasta1\**" />
+    <Content Remove="Domain\Models\NovaPasta\**" />
+    <EmbeddedResource Remove="Domain\Models\NovaPasta1\**" />
+    <EmbeddedResource Remove="Domain\Models\NovaPasta\**" />
+    <None Remove="Domain\Models\NovaPasta1\**" />
+    <None Remove="Domain\Models\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AssemblyInfo.cs" />
+    <Compile Remove="Domain\DTOs\FileName.cs" />
+    <Compile Remove="Domain\DTOs\Turns.cs" />
+    <Compile Remove="Domain\DTOs\TurnsOnTheWheel.cs" />
+    <Compile Remove="Domain\Models\TurnsAgregate\Cage.cs" />
+    <Compile Remove="Domain\Models\TurnsAgregate\ICageRepository.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -23,6 +44,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Models\TurnsAgregate\" />
   </ItemGroup>
 
 </Project>
