@@ -18,14 +18,10 @@ namespace API_postgres.Controllers
     {
 
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<UserController> _logger;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, ILogger<UserController> logger, IMapper mapper)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _logger = logger;
-            _mapper = mapper;
         }
 
         // GET: api/<UserController>
