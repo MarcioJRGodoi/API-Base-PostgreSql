@@ -30,55 +30,75 @@ namespace API_postgres.Controllers
         public Task<List<UserViewModel>> Get()
         {
             return _userRepository.GetAll();
-            
+
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = _userRepository.Get(id);
-            var userDTO = _mapper.Map<UserDTO>(user);
-            return Ok(userDTO);   
+            var user = await _userRepository.Get(id);
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            return Ok(user);
         }
 
         // POST api/<UserController>
         //[Authorize]
         [HttpPost]
-        public void Post([FromForm] EmployeeViewModel user)
+        public IActionResult Post([FromForm] UserInputModel user)
         {
-            var newUser = new User(user.Name, user.Password, user.Profile);
-            _userRepository.Add(newUser);
+            try
+            {
+                var newUser = new User(user.Name, user.Password, user.Profile);
+                _userRepository.Add(newUser);
+
+                return Ok("Usuário criado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro: {ex.Message}");
+            }
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, EmployeeViewModel user)
+        public async Task<IActionResult> Update(int id, [FromForm] UserInputModel updatedUser)
         {
-            var UserExists = _userRepository.Get(id);
-            if (UserExists == null)
+            try
             {
-                throw new ArgumentException("O usuário informado não existe");
+                User user = new(updatedUser.Name, updatedUser.Password, updatedUser.Profile);
+                var updated = await _userRepository.Update(id, user);
+
+                if (!updated)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                return Ok("Usuário atualizado com sucesso");
             }
-            var newUser = new User(user.Name, user.Password, user.Profile);
-            _userRepository.Update(id, newUser);
-            return Ok("Usuario Atualizado com sucesso");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try 
+            try
             {
-               var delete =  await _userRepository.Delete(id);
+                var delete = await _userRepository.Delete(id);
                 if (!delete)
                 {
-                   return NotFound("Usuário não encontrado");
+                    return NotFound("Usuário não encontrado");
                 }
                 return Ok("Usuário deletado com sucesso");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
