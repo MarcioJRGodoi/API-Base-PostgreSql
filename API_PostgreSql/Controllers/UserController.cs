@@ -48,7 +48,7 @@ namespace API_postgres.Controllers
         // POST api/<UserController>
         //[Authorize]
         [HttpPost]
-        public IActionResult Post([FromForm] UserInputModel user)
+        public IActionResult Post([FromBody] UserInputModel user)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace API_postgres.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] UserInputModel updatedUser)
+        public async Task<IActionResult> Update(int id, [FromBody] UserInputModel updatedUser)
         {
             try
             {

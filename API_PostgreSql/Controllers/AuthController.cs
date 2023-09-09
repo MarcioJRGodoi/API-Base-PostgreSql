@@ -5,6 +5,7 @@ using API_PostgreSql.Infrastructure;
 using API_PostgreSql.Domain.Models.AuthAgregate;
 using System.Text;
 using System.Security.Cryptography;
+using API_PostgreSql.Application.InputModel;
 
 namespace API_PostgreSql.Controllers
 {
@@ -19,11 +20,11 @@ namespace API_PostgreSql.Controllers
         }
 
         [HttpPost]
-        public IActionResult Auth(string userName, string password)
+        public IActionResult Auth([FromBody] UserLoginInputModel login)
         {
 
-            var login = _authRepository.Login(userName, HashPasswordService.HashPassword(password));
-            if (login.UserName == null)
+            var loginUser = _authRepository.Login(login.Username, HashPasswordService.HashPassword(login.Password));
+            if (loginUser.UserName == null)
             {
                 return BadRequest("Usuário não encontrado");
             }
