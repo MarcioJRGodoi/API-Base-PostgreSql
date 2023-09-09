@@ -28,7 +28,7 @@ namespace API_PostgreSql.Controllers
             {
                 return BadRequest("Usuário não encontrado");
             }
-            return Ok(login);
+            return Ok(loginUser);
 
 
         }
