@@ -17,30 +17,57 @@ namespace API_PostgreSql.Infrastructure.Repository
 
         public async Task<Cage> Get(int id)
         {
-            return await _context.Cages.FindAsync(id);
-  
+            // Tente converter o valor do ID para int
+            if (!int.TryParse(id.ToString(), out int intId))
+            {
+                // Se a conversão falhar, retorne null ou trate o erro conforme necessário
+                return null;
+            }
+
+            return await _context.Cages.FindAsync(intId);
         }
+
 
         public async Task<List<CageDTO>> GetAll()
         {
             return await _context.Cages
                 .Select(cage => new CageDTO
                 {
+                    Id = cage.Id,
                     Descricao = cage.Descricao,
                     Diametro = cage.Diametro,
                 }).ToListAsync();
         }
 
-        public async void Update(int id, Cage cage)
+        public async Task<bool> Update(int id, Cage cage)
         {
             var oldCage = await _context.Cages.FindAsync(id);
-            oldCage.Descricao = cage.Descricao;
-            oldCage.Diametro = cage.Diametro;
-            await _context.SaveChangesAsync();
+            if (oldCage != null)
+            {
+                oldCage.Descricao = cage.Descricao;
+                oldCage.Diametro = cage.Diametro;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
-        public void Delete(int id)
+
+        public async Task<Cage> Delete(int id)
         {
-            throw new NotImplementedException();
+            var cage = await _context.Cages.FindAsync(id);
+            if (cage != null)
+            {
+                _context.Cages.Remove(cage);
+                await _context.SaveChangesAsync();
+                return cage;
+            }
+            else
+            {
+                throw new ArgumentException("Cage não encontrado", nameof(id));
+            }
         }
+
     }
 }
+

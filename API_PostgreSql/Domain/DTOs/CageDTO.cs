@@ -5,7 +5,7 @@ namespace API_PostgreSql.Domain.DTOs
 {
     public class CageDTO
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public float Diametro { get; set; }
         public string Descricao { get; set; }
     }

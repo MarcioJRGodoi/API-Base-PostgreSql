@@ -8,13 +8,13 @@ namespace API_PostgreSql.Domain.Models.CageAgregate
     {
         [Key]
         [Column("id")]
-        public int Id { get; private set; }
+        public int Id { get; set; }
         [Column("diametro")]
         public float Diametro { get; set; }
         [Column("descricao")]
         public string Descricao { get; set; }
 
-        public Cage(int diametro, string descricao)
+        public Cage(float diametro, string descricao)
         {
             Diametro = diametro;
             Descricao = descricao;
