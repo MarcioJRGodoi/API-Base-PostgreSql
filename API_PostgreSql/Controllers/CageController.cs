@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.ViewModel;
+using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.CageAgregate;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,25 +29,50 @@ namespace API_PostgreSql.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var cage = await _cageRepository.Get(id);
-            if(cage == null)
+            if (cage == null)
             {
-                return BadRequest("Usúario não encontrado");
+                return NotFound(new { message = "Gaiola não encontrada" });
             }
             return Ok(cage);
         }
 
         // POST api/<CageController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Cage cage)
+        public async Task<IActionResult> Post([FromForm] CageViewModel cage)
         {
-            await _cageRepository.Add(cage);
-            return Ok(cage);
+            try
+            {
+                Cage newCage = new(cage.Diametro, cage.Descricao);
+                await _cageRepository.Add(newCage);
+                return Ok("Teste");
+            }
+            catch (Exception ex)
+            {
+                // Registre a exceção para depuração
+                Console.WriteLine(ex);
+                return StatusCode(500, "Erro interno ao salvar a gaiola no banco de dados.");
+            }
         }
 
         // PUT api/<CageController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromForm] CageViewModel cageModel)
         {
+
+        
+      
+            try
+            {
+                Cage cage = new(cageModel.Diametro, cageModel.Descricao);
+                var UpdateMethod = _cageRepository.Update(id, cage);
+                //_cageRepository.Update(id, cage); // Update the cage in the repository
+                return Ok("Gaiola atualizada com sucesso");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Erro interno ao atualizar a gaiola no banco de dados.");
+            }
         }
 
         // DELETE api/<CageController>/5
