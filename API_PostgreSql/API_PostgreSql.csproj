@@ -23,8 +23,6 @@
     <Compile Remove="Domain\DTOs\FileName.cs" />
     <Compile Remove="Domain\DTOs\Turns.cs" />
     <Compile Remove="Domain\DTOs\TurnsOnTheWheel.cs" />
-    <Compile Remove="Domain\Models\TurnsAgregate\Cage.cs" />
-    <Compile Remove="Domain\Models\TurnsAgregate\ICageRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +42,6 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain\Models\TurnsAgregate\" />
   </ItemGroup>
 
 </Project>

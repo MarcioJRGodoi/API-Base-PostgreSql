@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Application.ViewModel;
+﻿using API_PostgreSql.Application.InputModel;
+using API_PostgreSql.Application.ViewModel;
 using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
@@ -17,20 +18,16 @@ namespace API_postgres.Controllers
     {
 
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<UserController> _logger;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, ILogger<UserController> logger, IMapper mapper)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _logger = logger;
-            _mapper = mapper;
         }
 
         // GET: api/<UserController>
 
         [HttpGet]
-        public Task<List<UserDTO>> Get()
+        public Task<List<UserViewModel>> Get()
         {
             return _userRepository.GetAll();
             
@@ -38,11 +35,11 @@ namespace API_postgres.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var user = _userRepository.Get(id);
             var userDTO = _mapper.Map<UserDTO>(user);
-            return Ok(userDTO);
+            return Ok(userDTO);   
         }
 
         // POST api/<UserController>
@@ -50,7 +47,6 @@ namespace API_postgres.Controllers
         [HttpPost]
         public void Post([FromForm] EmployeeViewModel user)
         {
-
             var newUser = new User(user.Name, user.Password, user.Profile);
             _userRepository.Add(newUser);
         }
@@ -71,8 +67,22 @@ namespace API_postgres.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try 
+            {
+               var delete =  await _userRepository.Delete(id);
+                if (!delete)
+                {
+                   return NotFound("Usuário não encontrado");
+                }
+                return Ok("Usuário deletado com sucesso");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
+
         }
     }
 }

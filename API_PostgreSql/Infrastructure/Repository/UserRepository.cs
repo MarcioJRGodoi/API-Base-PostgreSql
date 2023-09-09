@@ -1,4 +1,5 @@
 ﻿using API_PostgreSql.Application.Services;
+using API_PostgreSql.Application.ViewModel;
 using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using Microsoft.AspNetCore.Connections;
@@ -22,18 +23,29 @@ namespace API_PostgreSql.Infrastructure.Repository
 
         }
 
-        public async Task<User> Get(int id)
+        public async Task<UserViewModel> Get(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
+            if(user == null)
+            {
+                return null;
+            }
+            var userView = new UserViewModel
+            {
+                Id = user.Id,
+                Profile = user.Profile,
+                Name = user.Name,
+            };
+            return userView;
         }
 
-        public async Task<List<UserDTO>> GetAll()
+        public async Task<List<UserViewModel>> GetAll()
         {
             return  await _context.Users
-                .Select(user => new UserDTO
+                .Select(user => new UserViewModel
                 {
                     Id = user.Id,
-                    UserName = user.Name,
+                    Name = user.Name,
                     Profile = user.Profile,
                 }).ToListAsync();
         }
@@ -62,9 +74,22 @@ namespace API_PostgreSql.Infrastructure.Repository
             }
         }
 
-        public IActionResult Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                {
+                    return false;
+                }
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }catch(Exception e)
+            {
+                throw new Exception($"Erro ao deletar o usuário: {e.Message}");
+            }
         }
     }
 }
