@@ -53,19 +53,17 @@ namespace API_PostgreSql.Infrastructure.Repository
             return false;
         }
 
-        public async Task<Cage> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var cage = await _context.Cages.FindAsync(id);
             if (cage != null)
             {
                 _context.Cages.Remove(cage);
                 await _context.SaveChangesAsync();
-                return cage;
+                return true;
             }
-            else
-            {
-                throw new ArgumentException("Cage não encontrado", nameof(id));
-            }
+
+            return false;
         }
 
     }

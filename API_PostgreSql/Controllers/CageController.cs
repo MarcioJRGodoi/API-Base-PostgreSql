@@ -2,6 +2,7 @@
 using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.CageAgregate;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +22,8 @@ namespace API_PostgreSql.Controllers
         [HttpGet]
         public async Task<List<CageDTO>> Get()
         {
-            return await _cageRepository.GetAll();
+            var cages = await _cageRepository.GetAll();
+            return cages.OrderBy(cage => cage.Id).ToList();
         }
 
         // GET api/<CageController>/5
@@ -44,7 +46,7 @@ namespace API_PostgreSql.Controllers
             {
                 Cage newCage = new(cage.Diametro, cage.Descricao);
                 await _cageRepository.Add(newCage);
-                return Ok("Teste");
+                return Ok("A gaiola foi adicionada!");
             }
             catch (Exception ex)
             {
@@ -58,15 +60,19 @@ namespace API_PostgreSql.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromForm] CageViewModel cageModel)
         {
-
-        
-      
             try
             {
                 Cage cage = new(cageModel.Diametro, cageModel.Descricao);
-                var UpdateMethod = _cageRepository.Update(id, cage);
-                //_cageRepository.Update(id, cage); // Update the cage in the repository
-                return Ok("Gaiola atualizada com sucesso");
+                var result = _cageRepository.Update(id, cage);
+
+                if (result != null)
+                {
+                    return Ok("A Gaiola foi atualizada com sucesso!");
+                }
+                else
+                {
+                    return NotFound("A Gaiola não foi encontrada. =(");
+                }
             }
             catch (Exception ex)
             {
@@ -77,8 +83,27 @@ namespace API_PostgreSql.Controllers
 
         // DELETE api/<CageController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                var result = _cageRepository.Delete(id);
+
+                if (result != null)
+                {
+                    return Ok("A Gaiola foi excluída com sucesso!");
+                }
+                else
+                {
+                    return NotFound("A Gaiola não foi encontrada. =(");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Erro interno ao excluir a gaiola no banco de dados.");
+            }
         }
+
     }
 }
