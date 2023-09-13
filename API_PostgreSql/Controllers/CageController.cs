@@ -40,7 +40,7 @@ namespace API_PostgreSql.Controllers
 
         // POST api/<CageController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] CageViewModel cage)
+        public async Task<IActionResult> Post([FromBody] CageViewModel cage)
         {
             try
             {
@@ -58,14 +58,14 @@ namespace API_PostgreSql.Controllers
 
         // PUT api/<CageController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromForm] CageViewModel cageModel)
+        public async Task<IActionResult> Put(int id, [FromBody] CageViewModel cageModel)
         {
             try
             {
                 Cage cage = new(cageModel.Diametro, cageModel.Descricao);
-                var result = _cageRepository.Update(id, cage);
+                var result = await _cageRepository.Update(id, cage);
 
-                if (result != null)
+                if (result)
                 {
                     return Ok("A Gaiola foi atualizada com sucesso!");
                 }
@@ -83,13 +83,13 @@ namespace API_PostgreSql.Controllers
 
         // DELETE api/<CageController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromBody]int id)
         {
             try
             {
-                var result = _cageRepository.Delete(id);
+                var result = await _cageRepository.Delete(id);
 
-                if (result != null)
+                if (result)
                 {
                     return Ok("A Gaiola foi excluída com sucesso!");
                 }
