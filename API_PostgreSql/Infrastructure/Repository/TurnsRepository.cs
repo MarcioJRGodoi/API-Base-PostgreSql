@@ -34,6 +34,16 @@ namespace API_PostgreSql.Infrastructure.Repository
                 }).ToListAsync();
         }
 
+        public async Task<List<Turns>> GetByGaiola(int idGaiola)
+        {
+            // Consulta as voltas com base no idGaiola usando o Entity Framework Core
+            var turns = await _context.Turns
+                .Where(turn => turn.IdGaiola == idGaiola)
+                .ToListAsync();
+
+            return turns;
+        }
+
         public async void Update(int id, Turns turns)
         {
             var oldTurns = await _context.Turns.FindAsync(id);

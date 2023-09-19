@@ -12,10 +12,12 @@ namespace API_PostgreSql.Controllers
     public class TurnsController : ControllerBase
     {
         private readonly ITurnsRepository _turnsRepository;
+        private readonly ICageRepository _cageRepository;
 
-        public TurnsController(ITurnsRepository turnsRepository)
+        public TurnsController(ITurnsRepository turnsRepository, ICageRepository cageRepository)
         {
             _turnsRepository = turnsRepository;
+            _cageRepository = cageRepository;
         }
         // GET: api/<TurnsController>
         [HttpGet]
@@ -34,6 +36,37 @@ namespace API_PostgreSql.Controllers
                 return NotFound("Usúario não encontrado");
             }
             return Ok(turns);
+        }
+
+        // GET api/<TurnsController>/ByGaiola/5
+        [HttpGet("ByGaiola/{id}")]
+        public async Task<IActionResult> GetByGaiola(int idGaiola)
+        {
+            // Consulta as voltas com base no idGaiola
+            var turns = await _turnsRepository.GetByGaiola(idGaiola);
+
+            if (turns == null || !turns.Any())
+            {
+                return NotFound("Nenhuma volta encontrada para a gaiola especificada.");
+            }
+
+            // Obtém a descrição da gaiola
+            var gaiola = await _cageRepository.Get(idGaiola);
+
+            if (gaiola == null)
+            {
+                return NotFound("Gaiola não encontrada.");
+            }
+
+            // Crie uma lista de objetos que incluem as informações da volta e da gaiola
+            var result = turns.Select(turn => new TurnsWithCageDTO
+            {
+                Id = turn.Id,
+                // Outros campos da volta
+                GaiolaDescricao = gaiola.Descricao // Inclui a descrição da gaiola
+            }).ToList();
+
+            return Ok(result);
         }
 
         // POST api/<TurnsController>
