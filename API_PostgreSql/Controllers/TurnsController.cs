@@ -2,6 +2,7 @@
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using API_PostgreSql.Domain.Models.TurnsAgregate;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,6 +45,13 @@ namespace API_PostgreSql.Controllers
             {
                 dateI = DateTime.SpecifyKind(dateI, DateTimeKind.Utc);
                 dateE = DateTime.SpecifyKind(dateE, DateTimeKind.Utc);
+
+                if (dateI.Date == dateE.Date)
+                {
+                    // Se as datas de início e fim forem iguais, ajuste a data de fim para o final do dia.
+                    dateE = dateE.Date.AddDays(1).AddTicks(-1);
+                }
+
                 var turns = await _turnsRepository.GetByDate(dateI, dateE);
                 if(turns.Count == 0)
                 {
@@ -52,7 +60,7 @@ namespace API_PostgreSql.Controllers
                 return Ok(turns); 
             }catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, $"Erro interno {ex.Message}");
             }
         }
 
