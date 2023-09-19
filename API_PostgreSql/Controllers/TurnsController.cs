@@ -31,9 +31,29 @@ namespace API_PostgreSql.Controllers
             var turns = await _turnsRepository.Get(id);
             if (turns == null)
             {
-                return NotFound("Usúario não encontrado");
+                return NotFound("Não foram encontrados registros");
             }
             return Ok(turns);
+        }
+
+        //GET api/GetByDate
+        [HttpGet("{dateI}/{dateE}")]
+        public async Task<IActionResult> GetByDate(DateTime dateI, DateTime dateE)
+        {
+            try
+            {
+                dateI = DateTime.SpecifyKind(dateI, DateTimeKind.Utc);
+                dateE = DateTime.SpecifyKind(dateE, DateTimeKind.Utc);
+                var turns = await _turnsRepository.GetByDate(dateI, dateE);
+                if(turns.Count == 0)
+                {
+                    return NotFound("Não foram encontrados registros com as datas fornecidas");
+                }
+                return Ok(turns); 
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST api/<TurnsController>

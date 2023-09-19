@@ -49,5 +49,20 @@ namespace API_PostgreSql.Infrastructure.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<List<TurnsDTO>> GetByDate(DateTime dataI, DateTime dataE)
+        {
+            var turns = await _context.Turns
+                .Where(date => date.Data >= dataI && date.Data <= dataE)
+                .Select(turns => new TurnsDTO
+                {
+                    GaiolaId = turns.GaiolaId,
+                    Data = turns.Data,
+                    VelocidadeMedia = turns.VelocidadeMedia,
+                    TempoAtividade = turns.TempoAtividade,
+                    DistanciaPercorrida = turns.DistanciaPercorrida,
+                }).ToListAsync();
+            return turns;
+        }
     }
 }
