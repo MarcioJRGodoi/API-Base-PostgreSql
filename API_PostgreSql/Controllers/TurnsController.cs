@@ -38,21 +38,23 @@ namespace API_PostgreSql.Controllers
         }
 
         //GET api/GetByDate
-        [HttpGet("{dateI}/{dateE}")]
-        public async Task<IActionResult> GetByDate(DateTime dateI, DateTime dateE)
+        [HttpGet("{id}/{dateI}/{dateE}")]
+        public async Task<IActionResult> GetByDate(int id, DateTime dateI, DateTime dateE)
         {
             try
             {
                 dateI = DateTime.SpecifyKind(dateI, DateTimeKind.Utc);
                 dateE = DateTime.SpecifyKind(dateE, DateTimeKind.Utc);
 
-                if (dateI.Date == dateE.Date)
-                {
-                    // Se as datas de início e fim forem iguais, ajuste a data de fim para o final do dia.
-                    dateE = dateE.Date.AddDays(1).AddTicks(-1);
-                }
+                //if (dateI.Date == dateE.Date)
+                //{
+                //    // Se as datas de início e fim forem iguais, ajuste a data de fim para o final do dia.
+                //    dateE = dateE.Date.AddDays(1).AddTicks(-1);
+                //}
 
-                var turns = await _turnsRepository.GetByDate(dateI, dateE);
+                dateE = dateE.Date.AddDays(1).AddTicks(-1);
+
+                var turns = await _turnsRepository.GetByDate(id, dateI, dateE);
                 if(turns.Count == 0)
                 {
                     return NotFound("Não foram encontrados registros com as datas fornecidas");

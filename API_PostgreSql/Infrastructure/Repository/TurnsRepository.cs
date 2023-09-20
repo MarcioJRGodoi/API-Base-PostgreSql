@@ -50,10 +50,10 @@ namespace API_PostgreSql.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<TurnsDTO>> GetByDate(DateTime dataI, DateTime dataE)
+        public async Task<List<TurnsDTO>> GetByDate(int id, DateTime dataI, DateTime dataE)
         {
             var turns = await _context.Turns
-                .Where(date => date.Data >= dataI && date.Data <= dataE)
+                .Where(date => date.Data >= dataI && date.Data <= dataE && date.GaiolaId == id)
                 .Select(turns => new TurnsDTO
                 {
                     GaiolaId = turns.GaiolaId,

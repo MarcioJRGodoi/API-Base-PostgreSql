@@ -10,5 +10,6 @@ namespace API_PostgreSql.Domain.DTOs
         public int GaiolaId { get; set; }
         public int TempoAtividade { get; set; }
         public float DistanciaPercorrida { get; set; }
+        public string? Descricao { get; set; }
     }
 }

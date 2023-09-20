@@ -59,7 +59,10 @@ builder.Services.AddCors(options =>
 
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+            policy.WithOrigins("http://localhost:3000", 
+                "https://mice-life.vercel.app/", "http://mice-life-n7v5mahzn-guilhermefrag.vercel.app/"
+                , "https://mice-life-guilhermefrag.vercel.app/")
+            .AllowAnyMethod().AllowAnyHeader();
         });
 });
 
