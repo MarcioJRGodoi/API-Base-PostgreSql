@@ -83,7 +83,7 @@ namespace API_PostgreSql.Controllers
 
         // DELETE api/<CageController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody]int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
