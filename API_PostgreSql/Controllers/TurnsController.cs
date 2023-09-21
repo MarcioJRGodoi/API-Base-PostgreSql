@@ -40,7 +40,7 @@ namespace API_PostgreSql.Controllers
 
         //GET api/GetByDate
        //[Route("/dashboard")]
-        [HttpGet("{idGaiola}")]
+        [HttpGet("DashBoard/{idGaiola}")]
         public async Task<IActionResult> GetByDate(int idGaiola, DateTime dataI, DateTime dataE)
         {
             try
