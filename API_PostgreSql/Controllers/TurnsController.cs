@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.InputModel;
+using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using API_PostgreSql.Domain.Models.TurnsAgregate;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +39,14 @@ namespace API_PostgreSql.Controllers
         }
 
         //GET api/GetByDate
-        [HttpGet("{id}/{dateI}/{dateE}")]
-        public async Task<IActionResult> GetByDate(int id, DateTime dateI, DateTime dateE)
+       // [Route("/dashboard")]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> GetByDate(int id, [FromBody] DateInputModel date)
         {
             try
             {
-                dateI = DateTime.SpecifyKind(dateI, DateTimeKind.Utc);
-                dateE = DateTime.SpecifyKind(dateE, DateTimeKind.Utc);
+                date.DataI = DateTime.SpecifyKind(date.DataI, DateTimeKind.Utc);
+                date.DateE = DateTime.SpecifyKind(date.DateE, DateTimeKind.Utc);
 
                 //if (dateI.Date == dateE.Date)
                 //{
@@ -52,9 +54,9 @@ namespace API_PostgreSql.Controllers
                 //    dateE = dateE.Date.AddDays(1).AddTicks(-1);
                 //}
 
-                dateE = dateE.Date.AddDays(1).AddTicks(-1);
+                date.DateE = date.DateE.Date.AddDays(1).AddTicks(-1);
 
-                var turns = await _turnsRepository.GetByDate(id, dateI, dateE);
+                var turns = await _turnsRepository.GetByDate(id, date.DataI, date.DateE);
                 if(turns.Count == 0)
                 {
                     return NotFound("Não foram encontrados registros com as datas fornecidas");

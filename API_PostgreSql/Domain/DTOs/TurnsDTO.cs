@@ -11,5 +11,6 @@ namespace API_PostgreSql.Domain.DTOs
         public int TempoAtividade { get; set; }
         public float DistanciaPercorrida { get; set; }
         public string? Descricao { get; set; }
+        public int QuantidadeVoltas { get; set; }
     }
 }

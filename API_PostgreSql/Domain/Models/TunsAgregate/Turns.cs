@@ -19,14 +19,17 @@ namespace API_PostgreSql.Domain.Models.TurnsAgregate
         public int TempoAtividade { get; set; }
         [Column("distancia_percorrida")]
         public float DistanciaPercorrida { get; set; }
+        [Column("quantidade_voltas")]
+        public int QuantidadeVoltas { get; set; }
 
-        public Turns(int velocidadeMedia, int tempoAtividade, float distanciaPercorrida, DateTime data, int gaiolaId)
+        public Turns(int velocidadeMedia, int tempoAtividade, float distanciaPercorrida, DateTime data, int gaiolaId, int quantidadeVoltas)
         {
             Data = data;
             GaiolaId = gaiolaId;
             VelocidadeMedia = velocidadeMedia;
             TempoAtividade = tempoAtividade;
             DistanciaPercorrida = distanciaPercorrida;
+            QuantidadeVoltas = quantidadeVoltas;
         }
 
         public Turns()

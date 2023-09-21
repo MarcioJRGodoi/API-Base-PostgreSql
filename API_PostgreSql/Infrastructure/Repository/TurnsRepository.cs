@@ -31,6 +31,7 @@ namespace API_PostgreSql.Infrastructure.Repository
                     VelocidadeMedia = turns.VelocidadeMedia,
                     TempoAtividade = turns.TempoAtividade,
                     DistanciaPercorrida = turns.DistanciaPercorrida,
+                    QuantidadeVoltas = turns.QuantidadeVoltas,
                 }).ToListAsync();
         }
 
@@ -42,6 +43,7 @@ namespace API_PostgreSql.Infrastructure.Repository
             oldTurns.TempoAtividade = turns.TempoAtividade;
             oldTurns.GaiolaId = turns.GaiolaId;
             oldTurns.Data = turns.Data;
+            oldTurns.QuantidadeVoltas = turns.QuantidadeVoltas;
             await _context.SaveChangesAsync();
         }
 
@@ -61,6 +63,7 @@ namespace API_PostgreSql.Infrastructure.Repository
                     VelocidadeMedia = turns.VelocidadeMedia,
                     TempoAtividade = turns.TempoAtividade,
                     DistanciaPercorrida = turns.DistanciaPercorrida,
+                    QuantidadeVoltas = turns.QuantidadeVoltas,
                 }).ToListAsync();
             return turns;
         }
