@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.ViewModel;
+using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.EmployeeAgregate;
 using API_PostgreSql.Domain.Models.TurnsAgregate;
 using Microsoft.AspNetCore.Mvc;
@@ -52,11 +53,17 @@ namespace API_PostgreSql.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<TurnsDTO>> GetByDate(int id, DateTime dataI, DateTime dataE)
+        public async Task<TurnsViewModel> GetByDate(int id, DateTime dataI, DateTime dataE)
         {
             var turns = await _context.Turns
-                .Where(date => date.Data >= dataI && date.Data <= dataE && date.GaiolaId == id)
-                .Select(turns => new TurnsDTO
+                .Where(turn => turn.Data >= dataI && turn.Data <= dataE && turn.GaiolaId == id)
+                .ToListAsync();
+            var metricas = new TurnsViewModel
+            {
+                VelocidadeTotal = turns.Sum(t => t.VelocidadeMedia),
+                DistanciaPercorridaTotal = turns.Sum(t => t.DistanciaPercorrida),
+                TempoDeAtividadeTotal = turns.Sum(t => t.TempoAtividade), 
+                Medias = turns.Select(turns => new TurnsDTO
                 {
                     GaiolaId = turns.GaiolaId,
                     Data = turns.Data,
@@ -64,8 +71,9 @@ namespace API_PostgreSql.Infrastructure.Repository
                     TempoAtividade = turns.TempoAtividade,
                     DistanciaPercorrida = turns.DistanciaPercorrida,
                     QuantidadeVoltas = turns.QuantidadeVoltas,
-                }).ToListAsync();
-            return turns;
+                }).ToList(),
+            };
+            return metricas;
         }
     }
 }

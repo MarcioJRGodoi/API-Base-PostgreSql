@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.ViewModel;
+using API_PostgreSql.Domain.DTOs;
 
 namespace API_PostgreSql.Domain.Models.TurnsAgregate
 {
@@ -9,6 +10,6 @@ namespace API_PostgreSql.Domain.Models.TurnsAgregate
         Task<Turns> Get(int id);
         void Update(int id, Turns turns);
         void Delete(int id);
-        Task<List<TurnsDTO>> GetByDate(int id, DateTime dataI, DateTime dataE);
+        Task<TurnsViewModel> GetByDate(int id, DateTime dataI, DateTime dataE);
     }
 }

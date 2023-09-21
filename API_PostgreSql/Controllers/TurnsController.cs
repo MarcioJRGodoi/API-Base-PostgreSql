@@ -57,7 +57,7 @@ namespace API_PostgreSql.Controllers
                 date.DateE = date.DateE.Date.AddDays(1).AddTicks(-1);
 
                 var turns = await _turnsRepository.GetByDate(id, date.DataI, date.DateE);
-                if(turns.Count == 0)
+                if(turns.Medias.Count == 0)
                 {
                     return NotFound("Não foram encontrados registros com as datas fornecidas");
                 }
