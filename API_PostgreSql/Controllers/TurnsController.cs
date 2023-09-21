@@ -39,9 +39,9 @@ namespace API_PostgreSql.Controllers
         }
 
         //GET api/GetByDate
-       // [Route("/dashboard")]
-        [HttpGet("{id}/dataI/dataE")]
-        public async Task<IActionResult> GetByDate(int id, DateTime dataI, DateTime dataE)
+       //[Route("/dashboard")]
+        [HttpGet("{idGaiola}")]
+        public async Task<IActionResult> GetByDate(int idGaiola, DateTime dataI, DateTime dataE)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace API_PostgreSql.Controllers
 
                 dataE = dataE.Date.AddDays(1).AddTicks(-1);
 
-                var turns = await _turnsRepository.GetByDate(id, dataI, dataE);
+                var turns = await _turnsRepository.GetByDate(idGaiola, dataI, dataE);
                 if(turns.Medias.Count == 0)
                 {
                     return NotFound("Não foram encontrados registros com as datas fornecidas");
