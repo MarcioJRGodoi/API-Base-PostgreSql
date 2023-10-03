@@ -18,4 +18,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 EXPOSE $PORT
+EXPOSE 80
 CMD ASPNETCORE_URLS="http://80" dotnet API_PostgreSql.dll
