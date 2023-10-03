@@ -19,4 +19,4 @@ RUN dotnet publish "API_PostgreSql.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD ASPNETCORE_URLS="https://*$PORT" dotnet API_PostgreSql.dll
+CMD ASPNETCORE_URLS="http://*$PORT" dotnet API_PostgreSql.dll
