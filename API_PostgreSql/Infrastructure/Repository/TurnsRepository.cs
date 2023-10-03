@@ -60,7 +60,7 @@ namespace API_PostgreSql.Infrastructure.Repository
                 .ToListAsync();
             var metricas = new TurnsViewModel
             {
-                VelocidadeTotal = turns.Sum(t => t.VelocidadeMedia),
+                VelocidadeTotal = turns.Sum(t => t.VelocidadeMedia / turns.Count),
                 DistanciaPercorridaTotal = turns.Sum(t => t.DistanciaPercorrida),
                 TempoDeAtividadeTotal = turns.Sum(t => t.TempoAtividade), 
                 Medias = turns.Select(turns => new TurnsDTO
