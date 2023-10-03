@@ -17,6 +17,5 @@ RUN dotnet publish "API_PostgreSql.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-EXPOSE $PORT
 EXPOSE 80
 ENTRYPOINT ["dotnet", "API_PostgreSql.dll"]
