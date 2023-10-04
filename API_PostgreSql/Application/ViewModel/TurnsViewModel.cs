@@ -7,6 +7,7 @@ namespace API_PostgreSql.Application.ViewModel
         public int VelocidadeTotal { get; set; }
         public float DistanciaPercorridaTotal { get; set; }
         public int TempoDeAtividadeTotal { get; set; }
+        public float MetrosPorSegundo { get; set; }
         public List<TurnsDTO> Medias { get; set; }
 
     }

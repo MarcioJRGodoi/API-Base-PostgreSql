@@ -84,8 +84,23 @@ namespace API_PostgreSql.Controllers
 
         // DELETE api/<TurnsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try 
+            {
+              var delete =  _turnsRepository.Delete(id);
+                if(delete ==  null)
+                {
+                    return NotFound("nenhum registro encontrado para gaiola informada");
+                }
+                return Ok("Registros deletados");
+                
+
+            } catch(Exception ex) 
+            {
+                return StatusCode(500, "Erro no servidor");
+            }
+            
         }
     }
 }

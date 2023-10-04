@@ -9,7 +9,7 @@ namespace API_PostgreSql.Domain.Models.TurnsAgregate
         Task<List<TurnsDTO>> GetAll();
         Task<Turns> Get(int id);
         void Update(int id, Turns turns);
-        void Delete(int id);
+        Task<bool> Delete(int id);
         Task<TurnsViewModel> GetByDate(int id, DateTime dataI, DateTime dataE);
     }
 }

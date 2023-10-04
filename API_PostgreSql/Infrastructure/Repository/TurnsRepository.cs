@@ -48,9 +48,17 @@ namespace API_PostgreSql.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var turn = await _context.Turns.FindAsync(id);
+            if(turn != null)
+            {
+                return false;
+            }
+            _context.Turns.Remove(turn);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<TurnsViewModel> GetByDate(int id, DateTime dataI, DateTime dataE)
@@ -62,7 +70,8 @@ namespace API_PostgreSql.Infrastructure.Repository
             {
                 VelocidadeTotal = turns.Sum(t => t.VelocidadeMedia / turns.Count),
                 DistanciaPercorridaTotal = turns.Sum(t => t.DistanciaPercorrida),
-                TempoDeAtividadeTotal = turns.Sum(t => t.TempoAtividade), 
+                TempoDeAtividadeTotal = turns.Sum(t => t.TempoAtividade),
+                MetrosPorSegundo = (float)turns.Sum(t => t.DistanciaPercorrida / 3.6),
                 Medias = turns.Select(turns => new TurnsDTO
                 {
                     GaiolaId = turns.GaiolaId,
