@@ -91,7 +91,7 @@ namespace API_PostgreSql.Controllers
               var delete =  _turnsRepository.Delete(id);
                 if(delete ==  null)
                 {
-                    return NotFound("nenhum registro encontrado para gaiola informada");
+                    return NotFound("Nenhum registro encontrado para gaiola informada");
                 }
                 return Ok("Registros deletados");
                 
