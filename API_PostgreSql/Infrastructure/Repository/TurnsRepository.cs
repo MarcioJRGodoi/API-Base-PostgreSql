@@ -48,14 +48,15 @@ namespace API_PostgreSql.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAll(int id)
         {
-            var turn = await _context.Turns.FindAsync(id);
-            if(turn != null)
+            var turn = await _context.Turns
+                .Where(t => t.GaiolaId == id).ToListAsync();
+            if(turn == null)
             {
                 return false;
             }
-            _context.Turns.Remove(turn);
+            _context.Turns.RemoveRange(turn);
             await _context.SaveChangesAsync();
             return true;
 

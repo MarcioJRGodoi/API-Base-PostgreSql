@@ -84,12 +84,12 @@ namespace API_PostgreSql.Controllers
 
         // DELETE api/<TurnsController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAll(int id)
         {
             try 
             {
-              var delete =  _turnsRepository.Delete(id);
-                if(delete ==  null)
+              var delete = await _turnsRepository.DeleteAll(id);
+                if (delete == false)
                 {
                     return NotFound("Nenhum registro encontrado para gaiola informada");
                 }
