@@ -80,6 +80,19 @@ namespace API_PostgreSql.Controllers
                 return StatusCode(500, "Erro interno ao atualizar a gaiola no banco de dados.");
             }
         }
+        [Route("GetCagesLastRecord")]
+        [HttpGet]
+        public async Task<IActionResult> GetlastRecorder()
+        {
+            try
+            {
+                return Ok(await _cageRepository.GetALlCages());
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Erro interno ao excluir a gaiola no banco de dados.");
+            }
+        }
 
         // DELETE api/<CageController>/5
         [HttpDelete("{id}")]

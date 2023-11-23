@@ -1,4 +1,5 @@
-﻿using API_PostgreSql.Domain.DTOs;
+﻿using API_PostgreSql.Application.ViewModel;
+using API_PostgreSql.Domain.DTOs;
 using API_PostgreSql.Domain.Models.CageAgregate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,20 @@ namespace API_PostgreSql.Infrastructure.Repository
             return false;
         }
 
+        public async Task<List<CageViewModel>> GetALlCages()
+        {
+            return await _context.Cages
+        .Select(cage => new CageViewModel
+        {
+            Id = cage.Id,
+            Diametro = cage.Diametro,
+            Descricao = cage.Descricao,
+            UltimoRegistro = _context.Turns
+                .Where(turn => turn.GaiolaId == cage.Id)
+                .Max(turn => turn.Data)
+        })
+        .ToListAsync();
+        }
     }
 }
 
