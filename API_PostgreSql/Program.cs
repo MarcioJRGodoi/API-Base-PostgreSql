@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+Env.Load();
 // Add services to the container.
 builder.Services.AddControllers();
 
