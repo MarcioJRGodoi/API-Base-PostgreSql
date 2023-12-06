@@ -365,3 +365,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /API_PostgreSql/Controllers/TurnsController.cs
+
+# .env file
+.env
